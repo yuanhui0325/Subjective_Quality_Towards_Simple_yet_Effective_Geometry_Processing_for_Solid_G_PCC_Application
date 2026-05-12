@@ -1,0 +1,90 @@
+# Test conditions for N17995 CTC C2 using TMC13 trisoup
+# trisoup lossy-geom  --  lossy-attrs raht
+#  -- cat 1 only, since trisoup doesn't apply to very sparce clouds
+---
+categories:
+  lossy-geom-lossy-attrs:
+    encflags:
+     - mode: 0
+
+     ##
+     # partitioning for trisoup
+     - sliceMaxPointsTrisoup: 5000000
+     - sliceMaxPoints: 4000000
+     - sliceMinPoints: 2000000
+     # fixing slice origin to 0, 0, 0
+     - fixedSliceOrigin: '(0,0,0)'
+
+     ##
+     # geometry parameters (trisoup)
+     - randomAccessPeriod: 32
+     - interPredictionEnabled: 1
+
+     - motionParamPreset: 3
+     - entropyContinuationEnabled: 1
+     - GoFGeometryEntropyContinuationEnabled: 1
+
+     - sequenceScale: '$eval{ 1 / (1 << ( ${src-geometry-precision} - ${test-depth} )) }'
+     - trisoupNodeSize:
+         r01: 16
+         r02: 13
+         r03: 10
+         r04: 8
+         r05: 6
+         r06: 4
+     - trisoupQuantizationQP:
+         r01: 24
+         r02: 22
+         r03: 20
+         r04: 18
+         r05: 15
+         r06: 12
+     - trisoupHaloEnabled: 1
+     - trisoupThickness: '${thickness}'
+     - trisoupImprovedEncoderEnabled: 1
+     - safeTrisoupPartionning: 0 # safeTrisoupPartitionning not working properly with cat2
+     - trisoupEarlySkipStrength: '${skipStrength}'
+
+     ####
+     # attribute coding (common options -- relies on option ordering)
+     #  - use raht
+     - convertPlyColourspace: 1
+     - rahtInterPredictionEnabled: 1
+     # use dual motion with TriSoup
+     - dualMotionEnabled: 1
+
+     ##
+     # attribute coding -- colour
+     -
+       - !conditional '${has_colour}'
+       - localizedAttributesSlabThickness: 4096
+       - qp:
+           r01: '${qp1}' #34
+           r02: '${qp2}' #32
+           r03: '${qp3}' #30
+           r04: '${qp4}' #28
+           r05: '${qp5}' #25
+           r06: '${qp6}' #22
+       # NB: raht doesn't yet support quantizationStepChroma
+       - qpChromaOffset: '${chromaOffset}' #0
+       - rahtQPperSlice: 1
+       - bitdepth: 8
+       - attribute: color
+
+    decflags:
+     - mode: 1
+     - convertPlyColourspace: 1
+
+    pcerrorflags:
+     - dropdups: 2
+     - neighborsProc: 1
+
+    sequences:
+      # cat2
+      8ivfbv2_longdress_vox10:   { test-depth: 10, thickness: 36, qp1: 44, qp2: 38, qp3: 35, qp4: 32, qp5: 26, qp6: 21, chromaOffset: 4, skipStrength: 5   }
+      8ivfbv2_loot_vox10:        { test-depth: 10, thickness: 36, qp1: 42, qp2: 34, qp3: 29, qp4: 26, qp5: 20, qp6: 16, chromaOffset: 4, skipStrength: 30  }
+      8ivfbv2_redandblack_vox10: { test-depth: 10, thickness: 36, qp1: 43, qp2: 36, qp3: 29, qp4: 25, qp5: 20, qp6: 16, chromaOffset: 4, skipStrength: 20  }
+      8ivfbv2_soldier_vox10:     { test-depth: 10, thickness: 36, qp1: 43, qp2: 38, qp3: 31, qp4: 27, qp5: 22, qp6: 18, chromaOffset: 4, skipStrength: 100 }
+      basketball_player_vox11:   { test-depth: 11, thickness: 48, qp1: 42, qp2: 34, qp3: 27, qp4: 22, qp5: 16, qp6: 12, chromaOffset: 4, skipStrength: 5   }
+      dancer_player_vox11:       { test-depth: 11, thickness: 48, qp1: 40, qp2: 32, qp3: 27, qp4: 22, qp5: 16, qp6: 12, chromaOffset: 4, skipStrength: 5   }
+      queen:                     { test-depth: 10, thickness: 48, qp1: 49, qp2: 47, qp3: 45, qp4: 41, qp5: 33, qp6: 27, chromaOffset: 0, skipStrength: 100 }
