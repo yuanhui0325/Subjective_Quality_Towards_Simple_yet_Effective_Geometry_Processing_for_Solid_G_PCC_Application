@@ -14,11 +14,10 @@ geometry processing methods evaluated in the paper.
 | `ges-tm-v12rc4/` | The original GPCC/GES-TM v12rc4 source code used as the baseline. |
 | `ges-tm-v12rc4-HighFidelityCoordinateScale/` | The implementation of **Method A** in the paper, named High Fidelity Coordinate Scale. |
 | `ges-tm-v12rc4-FourLoopDecoupledTriangleReconstruction/` | The implementation of **Method B** in the paper, named Four-Loop Decoupled Triangle Reconstruction for Non-Closed Nodes. |
-| `datasets/` | Point cloud datasets used for experiments and subjective quality evaluation. |
 
 ## Datasets
 
-The point cloud that records a large-scale and high-precision electric power system in the wild is available at:
+The point cloud that records large-scale and high-precision electric power system in the wild is available at:
 
 - `https://pan.baidu.com/s/1001yds9Rs4fcOdP3Uqb3xA?pwd=km6m`
 
