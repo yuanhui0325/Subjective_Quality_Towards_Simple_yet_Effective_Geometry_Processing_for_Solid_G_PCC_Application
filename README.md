@@ -18,10 +18,9 @@ geometry processing methods evaluated in the paper.
 
 ## Datasets
 
-This repository includes a point cloud that records a large-scale electric
-power system:
+The point cloud that records a large-scale and high-precision electric power system in the wild is available at:
 
-- `datasets/The point clouds that records large-scale electric power system.ply`
+- `https://pan.baidu.com/s/1001yds9Rs4fcOdP3Uqb3xA?pwd=km6m`
 
 The experiments also use MPEG point cloud datasets. The MPEG dataset website
 is added here:
